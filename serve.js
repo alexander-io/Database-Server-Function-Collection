@@ -13,12 +13,12 @@ let path = require('path')
 // db_func.delete_doc()
 let db_func = require('./db.js')
 
-let glob = null
-
-let set_glob = function(docs) {
-  console.log('setting global');
-  glob = docs
-}
+// let glob = null
+//
+// let set_glob = function(docs) {
+//   console.log('setting global');
+//   glob = docs
+// }
 
 // connect to the mongo client
 // mongoclient.connect(url, function(err, db) {
@@ -28,8 +28,6 @@ let set_glob = function(docs) {
 //   console.log('closed db connection');
 // })
 
-
-
 // curl --data "user_id=123&post_id=123&title=darkside" localhost:3000/user/123/post/123/title/darkside
 // app.post('/user/:user_id/post/:post_id/title/:title', function(req, res, next) {
 //   console.log(req.params);
@@ -38,8 +36,6 @@ let set_glob = function(docs) {
 //   res.send(req.params)
 // })
 
-
-
 // app.get('/post/:post_title', function(req, res, next) {
 //   console.log(req.params);
 //   next()
@@ -47,6 +43,7 @@ let set_glob = function(docs) {
 //   res.send(req.params)
 // })
 
+// handle request for all post json objects, query db and send data
 app.get('/post(s)?/all', function(req, res) {
   console.log('got request from :', req.ip);
   mongoclient.connect(url, function(err, db) {
@@ -60,6 +57,7 @@ app.get('/post(s)?/all', function(req, res) {
   })
 })
 
+// handle request for all user json objects, query db and send data
 app.get('/user(s)?/all', function(req, res) {
   console.log('got request from :', req.ip);
   mongoclient.connect(url, function(err, db) {
@@ -72,21 +70,26 @@ app.get('/user(s)?/all', function(req, res) {
   })
 })
 
+// send the index
 app.get('/', function(req, res, next) {
   console.log('got request from :', req.ip);
   res.sendFile(path.join(__dirname + '/public/index.html'))
 })
 
+
+// send the style
 app.get('/style.css', function(req, res) {
   console.log('got request for style css');
   res.sendFile(path.join(__dirname + '/public/css/style.css'))
 })
 
+// send the material components css
 app.get('/material-components-web.css', function(req, res) {
   console.log('got request for material components css');
   res.sendFile(path.join(__dirname + '/' + 'node_modules/material-components-web/dist/material-components-web.css'))
 })
 
+// send the material components js
 app.get('/material-components-web.js', function(req, res) {
   console.log('got request for material components web');
   res.sendFile(path.join(__dirname + '/' + 'node_modules/material-components-web/dist/material-components-web.js'))
