@@ -4,80 +4,28 @@ let app = express()
 let mongo = require('mongodb')
 let assert = require('assert')
 let mongoclient = mongo.MongoClient
-
-
 let url = 'mongodb://localhost:27017/blog'
 
-mongoclient.connect(url, function(err, db) {
-  assert.equal(null, err)
-  console.log('connected to db');
-  post({eh:'eh'}, 'post', db, console.log)
+let db_func = require('./db.js')
+// db_func.post()
+// db_func.update()
+// db_func.find_all()
+// db_func.find_one()
+// db_func.delete_doc()
+let glob = null
 
-  update({eh:'eh'}, {meh:'asdasd'}, 'post', db)
-
-  findDocuments('post', db)
-  // console.dir(findDocuments('post', db));
-  db.close()
-
-
-})
-
-let post = function(entry, collection_title, db, callback) {
-  let collection = db.collection(collection_title)
-  collection.insert(entry, function(err, result) {
-    assert.equal(err, null)
-    // callback(result)
-  })
+let set_glob = function(docs) {
+  console.log('setting global');
+  glob = docs
 }
 
-
-/*
- * query, object with a property and value specified; ex : {post : 'build a computer'}
- * update_content, object with property and value specified; ex : {new_branch : 'new brannch is here'}
- * collection_title, title of the collection
- * db
- * callback
- */
-let update = function(query, update_content, collection_title, db, callback) {
-  let collection = db.collection(collection_title)
-
-  collection.updateOne(query, { $set: update_content}, function(err, result) {
-    if (result.result.nModified == 1) {
-      console.log('modified one document successfully');
-    } else if (result.result.n == 1) {
-      console.log('found matching element, noting to update');
-    } else { console.log('no matching element found for update'); }
-    // console.log(result);
-    if (callback) {
-      callback(result);
-    }
-  })
-}
-
-let delete_doc = function(query, collection_title, db, callback) {
-  let collection = db.collection(collection_title)
-
-  collection.deleteOne(query, function(err, result) {
-    console.log(result);
-    if (callback) {
-      callback(result)
-    }
-  })
-}
-
-var findDocuments = function(collection_title, db, callback) {
-  console.log('attempting to find');
-  // Get the documents collection
-  var collection = db.collection(collection_title);
-  // Find some documents
-  collection.find({}).toArray(function(err, docs) {
-    if (callback) {
-      callback(docs)
-    }
-    console.log(docs);
-    return docs
-  });
-}
+// connect to the mongo client
+// mongoclient.connect(url, function(err, db) {
+//   // assert.equal(null, err)
+//   console.log('connected to db');
+//   db.close()
+//   console.log('closed db connection');
+// })
 
 
 
@@ -87,6 +35,63 @@ app.post('/user/:user_id/post/:post_id/title/:title', function(req, res, next) {
   next()
 }, function(req, res) {
   res.send(req.params)
+})
+
+
+
+app.get('/post/:post_title', function(req, res, next) {
+  console.log(req.params);
+  next()
+}, function(req, res) {
+  res.send(req.params)
+})
+
+app.get('/', function(req, res, next) {
+
+  console.log('got request from :', req.ip);
+
+  let access_db = function() {
+    return new Promise(function(resolve, reject) {
+      mongoclient.connect(url, function(err, db) {
+        console.log('connected to db');
+
+        // db_func.find_all('post', db, set_glob)
+
+        var collection = db.collection('post');
+        // Find some documents
+        collection.find({}).toArray(function(err, docs) {
+          // console.log(docs);
+          resolve(docs)
+          // if (callback) {
+          //   console.log('executing callback');
+          //   callback(docs)
+          // }
+          // return docs
+        });
+
+
+
+        db.close()
+        console.log('closed db connection');
+        // next()
+      })
+    })
+  }
+
+  let a = access_db()
+  a.then(function(resolve, reject) {
+    console.log('in promise');
+    console.log(resolve[0]);
+    res.send(resolve[0])
+    // next()
+  })
+
+
+  // res.send('hello world')
+
+}, function(req, res) {
+  console.log('sending global variable');
+  // res.send(glob)
 })
 
 // EXAMPLE of posting with $ curl
