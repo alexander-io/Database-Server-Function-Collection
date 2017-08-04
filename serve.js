@@ -74,7 +74,7 @@ app.get('/user(s)?/all', function(req, res) {
 
 app.get('/', function(req, res, next) {
   console.log('got request from :', req.ip);
-  res.sendFile(path.join(__dirname + '/index.html'))
+  res.sendFile(path.join(__dirname + '/public/index.html'))
 })
 
 app.get('/style.css', function(req, res) {
@@ -85,6 +85,11 @@ app.get('/style.css', function(req, res) {
 app.get('/material-components-web.css', function(req, res) {
   console.log('got request for material components css');
   res.sendFile(path.join(__dirname + '/' + 'node_modules/material-components-web/dist/material-components-web.css'))
+})
+
+app.get('/material-components-web.js', function(req, res) {
+  console.log('got request for material components web');
+  res.sendFile(path.join(__dirname + '/' + 'node_modules/material-components-web/dist/material-components-web.js'))
 })
 
 // EXAMPLE of posting with $ curl
