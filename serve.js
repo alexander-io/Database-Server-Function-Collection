@@ -46,10 +46,8 @@ app.get('/post/:post_title', function(req, res, next) {
   res.send(req.params)
 })
 
-app.get('/', function(req, res, next) {
-
+app.get('/all_posts_json', function(req, res) {
   console.log('got request from :', req.ip);
-
   mongoclient.connect(url, function(err, db) {
     console.log('connected to db');
     let resolution = db_func.find_all('post', db)
@@ -59,46 +57,13 @@ app.get('/', function(req, res, next) {
       db.close()
     })
   })
+})
 
+app.get('/', function(req, res, next) {
 
-  // access db returns a promise to resolve the database requested entry (if it exists)
-  // let access_db = function() {
-  //   return new Promise(function(resolve, reject) {
-  //     mongoclient.connect(url, function(err, db) {
-  //       console.log('connected to db');
-  //
-  //       // db_func.find_all('post', db, set_glob)
-  //
-  //       let find_all = function(collection_title, db, callback, resolve) {
-  //         var collection = db.collection(collection_title);
-  //         // Find some documents
-  //         collection.find({}).toArray(function(err, docs) {
-  //           resolve(docs)
-  //         });
-  //       }
-  //
-  //       find_all('post', db, set_glob, resolve)
-  //
-  //
-  //
-  //
-  //       db.close()
-  //       console.log('closed db connection');
-  //       // next()
-  //     })
-  //   })
-  // }
+  console.log('got request from :', req.ip);
 
-  // let a = access_db()
-  // a.then(function(resolve, reject) {
-  //   console.log('in promise');
-  //   console.log(resolve[0]);
-  //   res.send(resolve[0])
-  //   // next()
-  // })
-
-
-  // res.send('hello world')
+  res.send('you\'ve accessed the root')
 
 })
 
