@@ -78,10 +78,13 @@ app.get('/', function(req, res, next) {
 })
 
 app.get('/style.css', function(req, res) {
-
-  console.log('got request for css');
-
+  console.log('got request for style css');
   res.sendFile(path.join(__dirname + '/public/css/style.css'))
+})
+
+app.get('/material-components-web.css', function(req, res) {
+  console.log('got request for material components css');
+  res.sendFile(path.join(__dirname + '/' + 'node_modules/material-components-web/dist/material-components-web.css'))
 })
 
 // EXAMPLE of posting with $ curl
