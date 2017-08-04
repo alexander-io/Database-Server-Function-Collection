@@ -1,7 +1,9 @@
 ## Collection of Express & MongoDB Server/Database Common Functions
 
-#### [Express JS](http://expressjs.com/ "Express")
-#### [MongoDB](https://www.mongodb.com/ "Mongo")
+#### [Node JS](https://nodejs.org/en/ "JavaScript Runtime Environment/Engine")
+#### [NPM](https://www.npmjs.com/ "Node Package Manager")
+#### [Express JS](http://expressjs.com/ "Express Web Framework")
+#### [MongoDB](https://www.mongodb.com/ "Mongo Database")
 
 ```javascript
 // $ npm init -fy && npm install --save express && npm install --save mongodb && touch serve.js
