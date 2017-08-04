@@ -2,16 +2,17 @@ let express = require('express')
 let app = express()
 
 let mongo = require('mongodb')
-let assert = require('assert')
 let mongoclient = mongo.MongoClient
 let url = 'mongodb://localhost:27017/blog'
 
-let db_func = require('./db.js')
+let path = require('path')
 // db_func.post()
 // db_func.update()
 // db_func.find_all()
 // db_func.find_one()
 // db_func.delete_doc()
+let db_func = require('./db.js')
+
 let glob = null
 
 let set_glob = function(docs) {
@@ -30,23 +31,23 @@ let set_glob = function(docs) {
 
 
 // curl --data "user_id=123&post_id=123&title=darkside" localhost:3000/user/123/post/123/title/darkside
-app.post('/user/:user_id/post/:post_id/title/:title', function(req, res, next) {
-  console.log(req.params);
-  next()
-}, function(req, res) {
-  res.send(req.params)
-})
+// app.post('/user/:user_id/post/:post_id/title/:title', function(req, res, next) {
+//   console.log(req.params);
+//   next()
+// }, function(req, res) {
+//   res.send(req.params)
+// })
 
 
 
-app.get('/post/:post_title', function(req, res, next) {
-  console.log(req.params);
-  next()
-}, function(req, res) {
-  res.send(req.params)
-})
+// app.get('/post/:post_title', function(req, res, next) {
+//   console.log(req.params);
+//   next()
+// }, function(req, res) {
+//   res.send(req.params)
+// })
 
-app.get('/all_posts_json', function(req, res) {
+app.get('/post(s)?/all', function(req, res) {
   console.log('got request from :', req.ip);
   mongoclient.connect(url, function(err, db) {
     console.log('connected to db');
@@ -59,12 +60,28 @@ app.get('/all_posts_json', function(req, res) {
   })
 })
 
-app.get('/', function(req, res, next) {
-
+app.get('/user(s)?/all', function(req, res) {
   console.log('got request from :', req.ip);
+  mongoclient.connect(url, function(err, db) {
+    console.log('connected to db');
+    let resolution = db_func.find_all('user', db)
+    resolution.then(function(resolve, reject) {
+      res.send(resolve)
+      db.close()
+    })
+  })
+})
 
-  res.send('you\'ve accessed the root')
+app.get('/', function(req, res, next) {
+  console.log('got request from :', req.ip);
+  res.sendFile(path.join(__dirname + '/index.html'))
+})
 
+app.get('/style.css', function(req, res) {
+
+  console.log('got request for css');
+
+  res.sendFile(path.join(__dirname + '/public/css/style.css'))
 })
 
 // EXAMPLE of posting with $ curl
