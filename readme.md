@@ -23,7 +23,7 @@ app.get('/post(s)?/all', function(req, res) {
 let find_all = function(collection_title, db) {
   return new Promise(function(resolve, reject) {
     db.collection(collection_title).find({}).toArray(function(err, docs) {
-      docs ? resolve(docs) : reject()
+      docs ? resolve(docs) : reject(new Error('failed to resolve'))
     });
   })
 }
