@@ -57,17 +57,16 @@ app.get('/', function(req, res, next) {
 
         // db_func.find_all('post', db, set_glob)
 
-        var collection = db.collection('post');
-        // Find some documents
-        collection.find({}).toArray(function(err, docs) {
-          // console.log(docs);
-          resolve(docs)
-          // if (callback) {
-          //   console.log('executing callback');
-          //   callback(docs)
-          // }
-          // return docs
-        });
+        let find_all = function(collection_title, db, callback, resolve) {
+          var collection = db.collection(collection_title);
+          // Find some documents
+          collection.find({}).toArray(function(err, docs) {
+            resolve(docs)
+          });
+        }
+
+        find_all('post', db, set_glob, resolve)
+
 
 
 
