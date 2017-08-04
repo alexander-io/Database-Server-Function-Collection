@@ -1,5 +1,7 @@
-## Collection of Server/Database Common Functions
+## Collection of Express & MongoDB Server/Database Common Functions
 
+### [express application framework](http://expressjs.com/ "Express")
+[mongo db service](https://www.mongodb.com/ "Mongo")
 
 ```javascript
 // $ npm init -fy && npm install --save express && npm install --save mongodb
