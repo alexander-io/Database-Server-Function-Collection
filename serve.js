@@ -43,27 +43,38 @@ let db_func = require('./db.js')
 //   res.send(req.params)
 // })
 
-// handle request for all post json objects, query db and send data
-app.get('/post(s)?/all', function(req, res) {
-  console.log('got request from :', req.ip);
-  mongoclient.connect(url, function(err, db) {
-    console.log('connected to db');
-    let resolution = db_func.find_all('post', db)
+// console.log('got request from :', req.ip);
+// console.log('connected to db');
+// let resolution = db_func.find_all('post', db)
+// resolution.then(function(resolve, reject) {
 
-    resolution.then(function(resolve, reject) {
+// handle request for all post json objects, query db and send data
+
+
+app.get('/post(s)?/all', function(req, res) {
+  mongoclient.connect(url, function(err, db) {
+    db_func.find_all('post', db).then(function(resolve, reject) {
       res.send(resolve)
       db.close()
     })
   })
 })
 
+
+// console.log('got request from :', req.ip);
+// console.log('connected to db');
+
+
+
 // handle request for all user json objects, query db and send data
+
 app.get('/user(s)?/all', function(req, res) {
-  console.log('got request from :', req.ip);
   mongoclient.connect(url, function(err, db) {
-    console.log('connected to db');
-    let resolution = db_func.find_all('user', db)
-    resolution.then(function(resolve, reject) {
+    // let resolution = db_func.find_all('user', db)
+
+
+    db_func.find_all('user', db).then(function(resolve, reject) {
+    // resolution.then(function(resolve, reject) {
       res.send(resolve)
       db.close()
     })

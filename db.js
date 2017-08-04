@@ -42,33 +42,18 @@ exports.delete_doc = function(query, collection_title, db, callback) {
   })
 }
 
+// console.log('attempting to find');
+// Get the documents collection
+// Find some documents
+// console.log(docs);
+
 exports.find_all = function(collection_title, db, callback) {
-  console.log('attempting to find');
-
   return new Promise(function(resolve, reject) {
-    // Get the documents collection
-    var collection = db.collection(collection_title);
-    // Find some documents
-    collection.find({}).toArray(function(err, docs) {
-
-      console.log(docs);
-      if(docs) {
-        resolve(docs)
-      } else {
-        reject()
-      }
-      // resolve(docs)
-      // if (callback) {
-      //   console.log('executing callback');
-      //   callback(docs)
-      // }
-      // return docs
+    db.collection(collection_title).find({}).toArray(function(err, docs) {
+      docs ? resolve(docs) : reject()
     });
-
   })
-
 }
-
 
 exports.find_one = function(query, collection_title, db, callback) {
 
