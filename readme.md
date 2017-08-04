@@ -35,4 +35,6 @@ let find_all = function(collection_title, db) {
 app.listen(port, function(){
   console.log('I can hear', port);
 })
+
+// navigate your browser to localhost:8080/posts/all
 ```
