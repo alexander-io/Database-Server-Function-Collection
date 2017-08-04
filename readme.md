@@ -4,10 +4,14 @@
 #### [MongoDB](https://www.mongodb.com/ "Mongo")
 
 ```javascript
-// $ npm init -fy && npm install --save express && npm install --save mongodb
+// $ npm init -fy && npm install --save express && npm install --save mongodb && touch serve.js
+
+/*
+ * serve.js
+ */
 
 let express = require('express'), mongo = require('mongodb'), url = 'mongodb://localhost:27017/blog'
-let app = express(), mongoclient = mongo.MongoClient
+let app = express(), mongoclient = mongo.MongoClient, port = 8080
 
 // handle request for all posts in 'post' database collection
 app.get('/post(s)?/all', function(req, res) {
@@ -27,4 +31,8 @@ let find_all = function(collection_title, db) {
     });
   })
 }
+
+app.listen(port, function(){
+  console.log('I can hear', port);
+})
 ```
