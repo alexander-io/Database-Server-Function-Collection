@@ -36,23 +36,10 @@ let db_func = require('./db.js')
 //   res.send(req.params)
 // })
 
-// app.get('/post/:post_title', function(req, res, next) {
-//   console.log(req.params);
-//   next()
-// }, function(req, res) {
-//   res.send(req.params)
-// })
-
-// console.log('got request from :', req.ip);
-// console.log('connected to db');
-// let resolution = db_func.find_all('post', db)
-// resolution.then(function(resolve, reject) {
-
 // handle request for all post json objects, query db and send data
-
-
 app.get('/post(s)?/all', function(req, res) {
   mongoclient.connect(url, function(err, db) {
+    // db_func.find_all() returns a promise to resolve the query data
     db_func.find_all('post', db).then(function(resolve, reject) {
       res.send(resolve)
       db.close()
@@ -61,21 +48,12 @@ app.get('/post(s)?/all', function(req, res) {
 })
 
 
-// console.log('got request from :', req.ip);
-// console.log('connected to db');
-
-
-
 // handle request for all user json objects, query db and send data
-
 app.get('/user(s)?/all', function(req, res) {
   mongoclient.connect(url, function(err, db) {
-    // let resolution = db_func.find_all('user', db)
-
-
+    // find_all() returns a promise to resolve the data from the base
     db_func.find_all('user', db).then(function(resolve, reject) {
-    // resolution.then(function(resolve, reject) {
-      res.send(resolve)
+      res.send(resolve) // send the data as a response
       db.close()
     })
   })
@@ -86,7 +64,6 @@ app.get('/', function(req, res, next) {
   console.log('got request from :', req.ip);
   res.sendFile(path.join(__dirname + '/public/index.html'))
 })
-
 
 // send the style
 app.get('/style.css', function(req, res) {
@@ -100,10 +77,36 @@ app.get('/material-components-web.css', function(req, res) {
   res.sendFile(path.join(__dirname + '/' + 'node_modules/material-components-web/dist/material-components-web.css'))
 })
 
+// send materialize js to requester
+app.get('/materialize.min.js', function(req, res) {
+  console.log('got request for materialize js');
+  res.sendFile(path.join(__dirname + '/' + 'node_modules/materialize-css/dist/js/materialize.min.js'))
+})
+
+// send materialize css to requester
+app.get('/materialize.min.css', function(req, res) {
+  console.log('got request for materialize js');
+  res.sendFile(path.join(__dirname + '/' + 'node_modules/materialize-css/dist/css/materialize.min.css'))
+})
+
 // send the material components js
 app.get('/material-components-web.js', function(req, res) {
   console.log('got request for material components web');
   res.sendFile(path.join(__dirname + '/' + 'node_modules/material-components-web/dist/material-components-web.js'))
+})
+
+// send jquery to requester
+app.get('/jquery.min.js', function(req,res) {
+  console.log('got request for jquery');
+  res.sendFile(path.join(__dirname + '/' + 'node_modules/jquery/dist/jquery.min.js'))
+})
+
+app.get('/fonts/roboto/Roboto-Regular.woff2', function(req, res) {
+  res.sendFile(path.join(__dirname + '/' + 'node_modules/materialize-css/dist/fonts/roboto/Roboto-Regular.woff2'))
+})
+
+app.get('/fonts/roboto/Roboto-Regular.woff', function(req, res) {
+  res.sendFile(path.join(__dirname + '/' + 'node_modules/materialize-css/dist/fonts/roboto/Roboto-Regular.woff'))
 })
 
 // EXAMPLE of posting with $ curl
