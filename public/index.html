@@ -6,12 +6,61 @@
 
     <script type="text/javascript" src="jquery.min.js"></script>
 
-    <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="material-components-web.css">
     <link rel="stylesheet" href="materialize.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <script type="text/javascript" src="materialize.min.js"></script>
   </head>
-  <body>
+  <body id="body">
 
+    <div class="top bar" style="width:100%;height:20px;background-color:#000a12;">
+
+    </div>
+    <div class="col s12">
+      <ul class="tabs" id="tabs">
+        <li class="tab col s3"><a href="#">blog</a></li>
+        <li class="tab col s3"><a href="#">authors</a></li>
+      </ul>
+
+    </div>
+
+    <a id="add-post" class="btn-floating btn-large waves-effect" style="position:fixed;bottom:25px;right:25px;">
+      <i class="material-icons">
+        add
+      </i>
+    </a>
+
+    <script type="text/javascript">
+      let add_post = document.getElementById('add-post')
+      let body = document.getElementById('body')
+      add_post.addEventListener('click', function(e) {
+
+        let add_post_window = document.createElement('div');
+        add_post_window.style.position = 'fixed'
+        add_post_window.style.width = '100%'
+        add_post_window.style.height = '100%'
+        add_post_window.style.backgroundColor = '#64dd17'
+        add_post_window.style.padding = '5%'
+
+        let add_post_window_close_button = document.createElement('a');
+        add_post_window_close_button.className = 'btn-floating  waves-effect'
+        add_post_window_close_button.style.position = 'relative'
+        add_post_window_close_button.style.backgroundColor = '#263238'
+        add_post_window_close_button.style.border = '3px solid #212121'
+
+        add_post_window.appendChild(add_post_window_close_button);
+
+        add_post.childNodes[1].innerText = 'done'
+        add_post.style.backgroundColor = '#263238'
+        add_post.style.border = '3px solid white'
+        // add_post.style.color = 'white'
+        // console.log(add_post.childNodes[1].innerText = 'done');
+
+
+
+        body.appendChild(add_post_window);
+      });
+    </script>
 
 
     <div class="section">
@@ -25,9 +74,11 @@
     </div>
 
 
-    <script type="text/javascript" src="materialize.min.js"></script>
     <script type="text/javascript" src="material-components-web.js"></script>
+
     <script type="text/javascript">mdc.autoInit()</script>
 
+
+    <link rel="stylesheet" href="style.css">
   </body>
 </html>
