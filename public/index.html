@@ -14,14 +14,44 @@
   <body id="body">
 
     <div class="top bar" style="width:100%;height:20px;background-color:#000a12;">
-
     </div>
+
     <div class="col s12">
       <ul class="tabs" id="tabs">
-        <li class="tab col s3"><a href="#">blog</a></li>
-        <li class="tab col s3"><a href="#">authors</a></li>
+        <li class="tab col s6"><a href="#">blog</a></li>
+        <li class="tab col s6"><a href="#">authors</a></li>
       </ul>
+    </div>
 
+    <div class="section">
+      <div class="container">
+        <div class="row">
+          <div class="col s6">
+            <form action="http://localhost:3000/user" method="post">
+              <h4 style="text-align : center; color:white;">create user</h4>
+              <div>
+                <label for="password">admin password</label>
+                <input type="password" name="admin_password" value="" >
+                <label for="username">username</label>
+                <input name="username" value="">
+                <label for="password">user password</label>
+                <input type="password" name="user_password" value="" >
+              </div>
+              <div>
+                <button>submit</button>
+              </div>
+            </form>
+          </div>
+          <style media="screen">
+            input {
+              color : white;
+            }
+          </style>
+          <div class="col s6">
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+          </div>
+        </div>
+      </div>
     </div>
 
     <a id="add-post" class="btn-floating btn-large waves-effect" style="position:fixed;bottom:25px;right:25px;">
@@ -47,6 +77,11 @@
         add_post_window_close_button.style.position = 'relative'
         add_post_window_close_button.style.backgroundColor = '#263238'
         add_post_window_close_button.style.border = '3px solid #212121'
+
+        let add_post_window_close_button_icon = document.createElement('i')
+        add_post_window_close_button_icon.className = 'material-icons'
+        add_post_window_close_button_icon.innerText = 'clear'
+        add_post_window_close_button.appendChild(add_post_window_close_button_icon);
 
         add_post_window.appendChild(add_post_window_close_button);
 

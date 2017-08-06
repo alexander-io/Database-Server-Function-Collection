@@ -4,21 +4,20 @@ let app = express()
 let mongo = require('mongodb')
 let mongoclient = mongo.MongoClient
 let url = 'mongodb://localhost:27017/blog'
-
 let path = require('path')
+
+var bodyParser = require('body-parser');
+
 // db_func.post()
 // db_func.update()
 // db_func.find_all()
 // db_func.find_one()
 // db_func.delete_doc()
 let db_func = require('./db.js')
+let dependencies = require('./dependencies.js')
 
-// let glob = null
-//
-// let set_glob = function(docs) {
-//   console.log('setting global');
-//   glob = docs
-// }
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: true }));
 
 // connect to the mongo client
 // mongoclient.connect(url, function(err, db) {
@@ -47,7 +46,6 @@ app.get('/post(s)?/all', function(req, res) {
   })
 })
 
-
 // handle request for all user json objects, query db and send data
 app.get('/user(s)?/all', function(req, res) {
   mongoclient.connect(url, function(err, db) {
@@ -59,55 +57,27 @@ app.get('/user(s)?/all', function(req, res) {
   })
 })
 
+// curl --data "user=claybeard" localhost:3000/user/claybeard
+app.post('/user', function(req, res) {
+  console.log(req.body);
+  let admin_password = 'totoro'
+
+  if (req.body.admin_password == admin_password) {
+    res.send(req.body)
+  } else {
+    res.send('incorrect pass')
+  }
+})
+
 // send the index
 app.get('/', function(req, res, next) {
   console.log('got request from :', req.ip);
   res.sendFile(path.join(__dirname + '/public/index.html'))
 })
 
-// send the style
-app.get('/style.css', function(req, res) {
-  console.log('got request for style css');
-  res.sendFile(path.join(__dirname + '/public/css/style.css'))
-})
+// css, js, fonts, assets?
+dependencies.serve_dependencies(app)
 
-// send the material components css
-app.get('/material-components-web.css', function(req, res) {
-  console.log('got request for material components css');
-  res.sendFile(path.join(__dirname + '/' + 'node_modules/material-components-web/dist/material-components-web.css'))
-})
-
-// send materialize js to requester
-app.get('/materialize.min.js', function(req, res) {
-  console.log('got request for materialize js');
-  res.sendFile(path.join(__dirname + '/' + 'node_modules/materialize-css/dist/js/materialize.min.js'))
-})
-
-// send materialize css to requester
-app.get('/materialize.min.css', function(req, res) {
-  console.log('got request for materialize js');
-  res.sendFile(path.join(__dirname + '/' + 'node_modules/materialize-css/dist/css/materialize.min.css'))
-})
-
-// send the material components js
-app.get('/material-components-web.js', function(req, res) {
-  console.log('got request for material components web');
-  res.sendFile(path.join(__dirname + '/' + 'node_modules/material-components-web/dist/material-components-web.js'))
-})
-
-// send jquery to requester
-app.get('/jquery.min.js', function(req,res) {
-  console.log('got request for jquery');
-  res.sendFile(path.join(__dirname + '/' + 'node_modules/jquery/dist/jquery.min.js'))
-})
-
-app.get('/fonts/roboto/Roboto-Regular.woff2', function(req, res) {
-  res.sendFile(path.join(__dirname + '/' + 'node_modules/materialize-css/dist/fonts/roboto/Roboto-Regular.woff2'))
-})
-
-app.get('/fonts/roboto/Roboto-Regular.woff', function(req, res) {
-  res.sendFile(path.join(__dirname + '/' + 'node_modules/materialize-css/dist/fonts/roboto/Roboto-Regular.woff'))
-})
 
 // EXAMPLE of posting with $ curl
 // curl --data "user_id=123" localhost:3000/users/:user_id
